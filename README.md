@@ -22,8 +22,16 @@ Add networks
 
 Generate certs
     
+    mkdir certs
     cd certs/
-    openssl rsa -in platform.privkey.pem -out platform.cert.key
+    openssl req -new > platform.ssl.csr
+    openssl rsa -in privkey.pem -out platform.cert.key
     openssl x509 -in platform.ssl.csr -out platform.cert.cert -req -signkey platform.cert.key
     cp platform.cert.cert platform.pos.crt
     cp platform.cert.key platform.pos.key
+    
+Trust certs
+
+    sudo trust anchor --store platform.pos.crt
+    sudo trust extract-compat
+
